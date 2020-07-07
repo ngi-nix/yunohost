@@ -1,0 +1,6 @@
+# nix name, luarocks name, server, version,luaversion,maintainers
+luajson,,,,,
+lualdap,,,,,
+luafilesystem,,,,,
+lrexlib-pcre,,,,,
+luasocket,,,,,

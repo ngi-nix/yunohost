@@ -34,24 +34,18 @@
     {
 
       # A Nixpkgs overlay.
-      overlay = final: prev: {
+      overlay = final: prev: with final; {
 
-        hello = with final; stdenv.mkDerivation rec {
-          name = "hello-${version}";
+        # Lua Packages
 
-          src = hello-src;
-
-          buildInputs = [ autoconf automake gettext gnulib perl gperf texinfo help2man ];
-
-          preConfigure = ''
-            mkdir -p .git # force BUILD_FROM_GIT
-            ./bootstrap --gnulib-srcdir=${gnulib-src} --no-git --skip-po
-          '';
-
-          meta = {
-            homepage = "https://www.gnu.org/software/hello/";
-            description = "A program to show a familiar, friendly greeting";
-          };
+        luaPackages = final.lua.pkgs;
+        lua = prev.lua.override {
+          packageOverrides =
+            let
+              overridenPackages = import ./pkgs/lua/overrides.nix { pkgs = final.pkgs; };
+              generatedPackages = callPackage ./pkgs/lua/package-set.nix { };
+              finalPackages = lib.composeExtensions generatedPackages overridenPackages;
+            in finalPackages;
         };
 
       };
@@ -59,7 +53,8 @@
       # Provide some binary packages for selected system types.
       packages = forAllSystems (system:
         {
-          inherit (nixpkgsFor.${system}) hello;
+          inherit (nixpkgsFor.${system}.luaPackages)
+            luafilesystem luajson lualdap lrexlib-pcre luasocket;
         });
 
       # The default package for 'nix build'. This makes sense if the
