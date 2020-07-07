@@ -48,6 +48,30 @@
             in finalPackages;
         };
 
+        # Python Packages
+
+        python2Packages = final.python2.pkgs;
+        python2 = prev.python2.override {
+          packageOverrides = final: prev:
+            with final; {
+              moulinette = callPackage (import ./pkgs/moulinette { src = moulinette-src; version = versions.moulinette; }) { };
+
+              pytest-cov = buildPythonPackage rec {
+                pname = "pytest-cov";
+                version = "2.10.0";
+
+                src = fetchPypi {
+                  inherit pname version;
+                  sha256 = "11xcy37zrcr02xxgym9wr2q79hwhwiyv19pxrcpm2lwfyk4rsqhs";
+                };
+
+                propagatedBuildInputs = [ pytest coverage ];
+
+                doCheck = false;
+              };
+            };
+        };
+
         # Packages
 
         ssowat = callPackage (import ./pkgs/ssowat { src = ssowat-src; version = versions.ssowat; }) { };
@@ -56,13 +80,20 @@
 
       # Provide some binary packages for selected system types.
       packages = forAllSystems (system:
+        let
+          pkgSet = nixpkgsFor.${system};
+        in
         {
-          inherit (nixpkgsFor.${system}.luaPackages)
+          inherit (pkgSet.luaPackages)
             luafilesystem luajson lualdap lrexlib-pcre luasocket;
 
-          inherit (nixpkgsFor.${system})
+          inherit (pkgSet.python2Packages)
+            moulinette;
+
+          inherit (pkgSet)
             ssowat;
-        });
+        }
+      );
 
       # The default package for 'nix build'. This makes sense if the
       # flake provides only one package or there is a clear "main"
