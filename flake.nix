@@ -10,12 +10,12 @@
 
   outputs = { self, nixpkgs, ssowat-src, moulinette-src }:
     let
-
       # Generate a user-friendly version numer.
       versions =
         let
           generateVersion = flake: builtins.substring 0 8 flake.lastModifiedDate;
-        in {
+        in
+        {
           ssowat = generateVersion ssowat-src;
           moulinette = generateVersion moulinette-src;
         };
@@ -30,7 +30,6 @@
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; overlays = [ self.overlay ]; });
 
     in
-
     {
 
       # A Nixpkgs overlay.
@@ -45,7 +44,8 @@
               overridenPackages = import ./pkgs/lua/overrides.nix { pkgs = final.pkgs; };
               generatedPackages = callPackage ./pkgs/lua/package-set.nix { };
               finalPackages = lib.composeExtensions generatedPackages overridenPackages;
-            in finalPackages;
+            in
+            finalPackages;
         };
 
         # Python Packages

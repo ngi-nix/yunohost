@@ -12,6 +12,6 @@ final: prev:
   };
 
   lrexlib-pcre = prev.lrexlib-pcre.override {
-    externalDeps = [ { name = "PCRE"; dep = pkgs.pcre; } ];
+    externalDeps = [{ name = "PCRE"; dep = pkgs.pcre; }];
   };
 }
