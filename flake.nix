@@ -2,7 +2,7 @@
   description = "YunoHost flake";
 
   # Nixpkgs / NixOS version to use.
-  inputs.nixpkgs.url = "nixpkgs/nixos-20.03";
+  inputs.nixpkgs = { type = "github"; owner = "NixOS"; repo = "nixpkgs"; ref = "nixos-20.03"; };
 
   # Upstream source tree(s).
   inputs.ssowat-src = { type = "github"; owner = "YunoHost"; repo = "SSOwat"; flake = false; };
