@@ -5,14 +5,20 @@
   inputs.nixpkgs.url = "nixpkgs/nixos-20.03";
 
   # Upstream source tree(s).
-  inputs.hello-src = { url = git+https://git.savannah.gnu.org/git/hello.git; flake = false; };
-  inputs.gnulib-src = { url = git+https://git.savannah.gnu.org/git/gnulib.git; flake = false; };
+  inputs.ssowat-src = { type = "github"; owner = "YunoHost"; repo = "SSOwat"; flake = false; };
+  inputs.moulinette-src = { type = "github"; owner = "YunoHost"; repo = "moulinette"; flake = false; };
 
-  outputs = { self, nixpkgs, hello-src, gnulib-src }:
+  outputs = { self, nixpkgs, ssowat-src, moulinette-src }:
     let
 
       # Generate a user-friendly version numer.
-      version = builtins.substring 0 8 hello-src.lastModifiedDate;
+      versions =
+        let
+          generateVersion = flake: builtins.substring 0 8 flake.lastModifiedDate;
+        in {
+          ssowat = generateVersion ssowat-src;
+          moulinette = generateVersion moulinette-src;
+        };
 
       # System types to support.
       supportedSystems = [ "x86_64-linux" ];
