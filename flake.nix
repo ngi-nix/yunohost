@@ -48,6 +48,10 @@
             in finalPackages;
         };
 
+        # Packages
+
+        ssowat = callPackage (import ./pkgs/ssowat { src = ssowat-src; version = versions.ssowat; }) { };
+
       };
 
       # Provide some binary packages for selected system types.
@@ -55,6 +59,9 @@
         {
           inherit (nixpkgsFor.${system}.luaPackages)
             luafilesystem luajson lualdap lrexlib-pcre luasocket;
+
+          inherit (nixpkgsFor.${system})
+            ssowat;
         });
 
       # The default package for 'nix build'. This makes sense if the
