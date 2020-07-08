@@ -1,7 +1,17 @@
-{ stdenv, luaPackages }:
+{ stdenv, lua }:
 
 { src, version }:
-
+let
+  luaInterpreter = lua.withPackages (ps: with ps;
+    [
+      luajson
+      lualdap
+      luafilesystem
+      luasocket
+      lrexlib-pcre
+    ]
+  );
+in
 stdenv.mkDerivation rec {
   pname = "ssowat";
   inherit version src;
@@ -16,4 +26,6 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  passthru = { lua = luaInterpreter; };
 }
