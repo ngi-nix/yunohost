@@ -175,6 +175,9 @@
         metronome = import ./modules/metronome.nix;
       };
 
+      # Nixops configuration
+      nixopsConfigurations.default = { inherit nixpkgs; } // (import ./nixops/default.nix { inherit self; });
+
       # Tests run by 'nix flake check' and by Hydra.
       checks = forAllSystems (system: self.packages.${system} // {
 
