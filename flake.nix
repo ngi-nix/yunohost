@@ -145,14 +145,16 @@
       devShell = forAllSystems (system:
         let
           pkgSet = nixpkgsFor.${system};
-          # Not proud of how this looks, but it works, though it is prone to breakages and ugly
-          nixopsWrapper = with pkgSet; symlinkJoin {
-            name = "nixops-wrapper";
-            paths = [ nixops nixops-libvirtd python3.pkgs.libvirt ];
+
+          nixopsWrapper = with pkgSet; poetry2nix.mkPoetryEnv {
+            projectDir = inputs.nixops-libvirtd;
+
+            overrides = poetry2nix.overrides.withDefaults
+              (import (inputs.nixops-libvirtd + "/overrides.nix") { pkgs = pkgSet; });
           };
         in
         pkgSet.mkShell {
-          buildInputs = [ nixopsWrapper ];
+          buildInputs = [ nixopsWrapper pkgSet.nixops-libvirtd ];
         });
 
       # The default package for 'nix build'. This makes sense if the
