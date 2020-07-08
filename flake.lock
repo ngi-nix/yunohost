@@ -33,7 +33,58 @@
         "type": "github"
       }
     },
+    "nixops": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1594131594,
+        "narHash": "sha256-F2jR4TuWmEq+ztRyOG9TrcSh7XQ3sMHtdBn8AL1fsTo=",
+        "owner": "NixOS",
+        "repo": "nixops",
+        "rev": "a287225018ced729d7fcf0858ed4fab2d7131c56",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixops",
+        "type": "github"
+      }
+    },
+    "nixops-libvirtd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1591117168,
+        "narHash": "sha256-hS/Wr6/Wzj1xshIiigiahF9/mHOa+I3vgf/hkQPLAig=",
+        "owner": "nix-community",
+        "repo": "nixops-libvirtd",
+        "rev": "5672dec91395881f9e6de72806cd200b9b25f8f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixops-libvirtd",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
+      "locked": {
+        "lastModified": 1591361552,
+        "narHash": "sha256-gCfAvkqAhCgFVxQF6HFuPz6o3V00zT0Xv4bFB/TT50Q=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "dcb64ea42e64aaecd8e6fef65cc86245c9666818",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1594117931,
         "narHash": "sha256-x7nZvITCLJiK7miPXU6yl2zdq+MlhjHicggfvjLguFg=",
@@ -53,7 +104,9 @@
       "inputs": {
         "metronome-src": "metronome-src",
         "moulinette-src": "moulinette-src",
-        "nixpkgs": "nixpkgs",
+        "nixops": "nixops",
+        "nixops-libvirtd": "nixops-libvirtd",
+        "nixpkgs": "nixpkgs_2",
         "ssowat-src": "ssowat-src",
         "yunohost-admin-src": "yunohost-admin-src",
         "yunohost-src": "yunohost-src"
@@ -73,6 +126,21 @@
         "owner": "YunoHost",
         "ref": "buster-unstable",
         "repo": "SSOwat",
+        "type": "github"
+      }
+    },
+    "utils": {
+      "locked": {
+        "lastModified": 1590791977,
+        "narHash": "sha256-l26u9vRsdV9jkoBGlzFxTKLKtrZ38xCMZIG9h9ibFjQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "4fbce19a7a9647154a35f0e856d52171c41e14a4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
         "type": "github"
       }
     },
