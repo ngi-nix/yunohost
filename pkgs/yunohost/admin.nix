@@ -1,7 +1,8 @@
-{ src, version, rngid }:
 { stdenv
 , nodejs, fetchNodeModules
 , gifsicle, optipng }:
+
+{ src, version, rngid }:
 
 stdenv.mkDerivation rec {
   pname = "yunohost-admin";

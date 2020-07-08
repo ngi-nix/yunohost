@@ -62,7 +62,10 @@
           packageOverrides = final: prev:
             with final; {
 
-              moulinette = callPackage (import ./pkgs/moulinette { src = moulinette-src; version = versions.moulinette; }) { };
+              moulinette = callPackage ./pkgs/moulinette { } {
+                src = moulinette-src;
+                version = versions.moulinette;
+              };
 
               pytest-cov = buildPythonPackage rec {
                 pname = "pytest-cov";
@@ -83,20 +86,25 @@
 
         # Packages
 
-        metronome = callPackage (import ./pkgs/metronome { src = metronome-src; version = versions.metronome; }) { };
-        ssowat = callPackage (import ./pkgs/ssowat { src = ssowat-src; version = versions.ssowat; }) { };
-        yunohost = callPackage (import ./pkgs/yunohost { src = yunohost-src; version = versions.yunohost; }) { };
-        yunohost-admin = callPackage
-          (import ./pkgs/yunohost/admin.nix
-            rec {
-              src = yunohost-admin-src;
-              version = versions.yunohost-admin;
-              rngid = builtins.substring 0 4 version;
-            }
-          )
-          {
-            fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
-          };
+        metronome = callPackage ./pkgs/metronome { } {
+          src = metronome-src;
+          version = versions.metronome;
+        };
+        ssowat = callPackage ./pkgs/ssowat { } {
+          src = ssowat-src;
+          version = versions.ssowat;
+        };
+        yunohost = callPackage ./pkgs/yunohost { } {
+          src = yunohost-src;
+          version = versions.yunohost;
+        };
+        yunohost-admin = callPackage ./pkgs/yunohost/admin.nix {
+          fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
+        } rec {
+          src = yunohost-admin-src;
+          version = versions.yunohost-admin;
+          rngid = builtins.substring 0 4 version;
+        };
 
       };
 

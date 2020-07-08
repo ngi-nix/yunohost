@@ -1,6 +1,7 @@
-{ src, version }:
 { stdenv
 , python }:
+
+{ src, version }:
 
 let
   pythonInterpreter = python.withPackages (ps: with ps; [

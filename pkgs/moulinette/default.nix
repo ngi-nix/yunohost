@@ -1,4 +1,3 @@
-{ src, version }:
 { buildPythonPackage
 , isPy3k
 , argcomplete
@@ -17,6 +16,8 @@
 , requests-mock
 , webtest
 }:
+
+{ src, version }:
 
 buildPythonPackage rec {
   pname = "moulinette";

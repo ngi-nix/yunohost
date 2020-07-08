@@ -1,5 +1,6 @@
-{ src, version }:
 { stdenv, luaPackages }:
+
+{ src, version }:
 
 stdenv.mkDerivation rec {
   pname = "ssowat";

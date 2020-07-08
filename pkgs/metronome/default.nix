@@ -1,6 +1,7 @@
-{ src, version }:
 { stdenv
 , libidn, openssl, lua }:
+
+{ src, version }:
 
 let
   luaInterpreter = lua.withPackages (ps: with ps;
