@@ -5,12 +5,14 @@
   inputs.nixpkgs = { type = "github"; owner = "NixOS"; repo = "nixpkgs"; ref = "nixos-20.03"; };
 
   # Upstream source tree(s).
+  inputs.metronome-src = { type = "github"; owner = "maranda"; repo = "metronome"; flake = false; };
+
   inputs.ssowat-src = { type = "github"; owner = "YunoHost"; repo = "SSOwat"; ref = "buster-unstable"; flake = false; };
   inputs.moulinette-src = { type = "github"; owner = "YunoHost"; repo = "moulinette"; ref = "buster-unstable"; flake = false; };
   inputs.yunohost-src = { type = "github"; owner = "YunoHost"; repo = "yunohost"; ref = "buster-unstable"; flake = false; };
   inputs.yunohost-admin-src = { type = "github"; owner = "YunoHost"; repo = "yunohost-admin"; ref = "buster-unstable"; flake = false; };
 
-  outputs = { self, nixpkgs, ssowat-src, moulinette-src, yunohost-src, yunohost-admin-src }:
+  outputs = { self, nixpkgs, metronome-src, ssowat-src, moulinette-src, yunohost-src, yunohost-admin-src }:
     let
       # Generate a user-friendly version numer.
       versions =
@@ -18,6 +20,7 @@
           generateVersion = flake: builtins.substring 0 8 flake.lastModifiedDate;
         in
         {
+          metronome = generateVersion metronome-src;
           ssowat = generateVersion ssowat-src;
           moulinette = generateVersion moulinette-src;
           yunohost = generateVersion yunohost-src;
@@ -80,6 +83,7 @@
 
         # Packages
 
+        metronome = callPackage (import ./pkgs/metronome { src = metronome-src; version = versions.metronome; }) { };
         ssowat = callPackage (import ./pkgs/ssowat { src = ssowat-src; version = versions.ssowat; }) { };
         yunohost = callPackage (import ./pkgs/yunohost { src = yunohost-src; version = versions.yunohost; }) { };
         yunohost-admin = callPackage
@@ -103,12 +107,14 @@
         in
         {
           inherit (pkgSet.luaPackages)
-            luafilesystem luajson lualdap lrexlib-pcre luasocket;
+            luafilesystem luajson lualdap lrexlib-pcre luasocket
+            luaexpat luaevent luasec lua-zlib luadbi;
 
           inherit (pkgSet.python2Packages)
             moulinette;
 
           inherit (pkgSet)
+            metronome
             ssowat
             yunohost yunohost-admin;
         }
