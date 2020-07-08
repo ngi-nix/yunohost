@@ -6,6 +6,7 @@
 
   # Unstable tools.
   inputs.nixops = { type = "github"; owner = "NixOS"; repo = "nixops"; };
+  inputs.nixops.inputs.nixpkgs.follows = "/nixpkgs";
   inputs.nixops-libvirtd = { type = "github"; owner = "nix-community"; repo = "nixops-libvirtd"; flake = false; };
 
   # Upstream source tree(s).
