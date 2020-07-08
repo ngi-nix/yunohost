@@ -4,6 +4,10 @@
   # Nixpkgs / NixOS version to use.
   inputs.nixpkgs = { type = "github"; owner = "NixOS"; repo = "nixpkgs"; ref = "nixos-20.03"; };
 
+  # Unstable tools.
+  inputs.nixops = { type = "github"; owner = "NixOS"; repo = "nixops"; };
+  inputs.nixops-libvirtd = { type = "github"; owner = "nix-community"; repo = "nixops-libvirtd"; flake = false; };
+
   # Upstream source tree(s).
   inputs.metronome-src = { type = "github"; owner = "maranda"; repo = "metronome"; flake = false; };
 
@@ -12,7 +16,7 @@
   inputs.yunohost-src = { type = "github"; owner = "YunoHost"; repo = "yunohost"; ref = "buster-unstable"; flake = false; };
   inputs.yunohost-admin-src = { type = "github"; owner = "YunoHost"; repo = "yunohost-admin"; ref = "buster-unstable"; flake = false; };
 
-  outputs = { self, nixpkgs, metronome-src, ssowat-src, moulinette-src, yunohost-src, yunohost-admin-src }:
+  outputs = { self, nixpkgs, metronome-src, ssowat-src, moulinette-src, yunohost-src, yunohost-admin-src, ... }@inputs:
     let
       # Generate a user-friendly version numer.
       versions =
@@ -86,6 +90,9 @@
 
         # Packages
 
+        nixops = inputs.nixops.defaultPackage.${system};
+        nixops-libvirtd = import inputs.nixops-libvirtd { pkgs = final.pkgs; };
+
         metronome = callPackage ./pkgs/metronome { } {
           src = metronome-src;
           version = versions.metronome;
@@ -127,6 +134,20 @@
             yunohost yunohost-admin;
         }
       );
+
+      # Development environment
+      devShell = forAllSystems (system:
+        let
+          pkgSet = nixpkgsFor.${system};
+          # Not proud of how this looks, but it works, though it is prone to breakages and ugly
+          nixopsWrapper = with pkgSet; symlinkJoin {
+            name = "nixops-wrapper";
+            paths = [ nixops nixops-libvirtd python3.pkgs.libvirt ];
+          };
+        in
+        pkgSet.mkShell {
+          buildInputs = [ nixopsWrapper ];
+        });
 
       # The default package for 'nix build'. This makes sense if the
       # flake provides only one package or there is a clear "main"
