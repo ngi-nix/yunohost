@@ -9,6 +9,8 @@
   inputs.nixops.inputs.nixpkgs.follows = "/nixpkgs";
   inputs.nixops-libvirtd = { type = "github"; owner = "nix-community"; repo = "nixops-libvirtd"; flake = false; };
 
+  inputs.poetry2nix = { type = "github"; owner = "nix-community"; repo = "poetry2nix"; };
+
   # Upstream source tree(s).
   inputs.metronome-src = { type = "github"; owner = "maranda"; repo = "metronome"; flake = false; };
 
@@ -93,6 +95,9 @@
 
         nixops = inputs.nixops.defaultPackage.${system};
         nixops-libvirtd = import inputs.nixops-libvirtd { pkgs = final.pkgs; };
+
+        inherit (inputs.poetry2nix.packages.${system})
+          poetry poetry2nix;
 
         metronome = callPackage ./pkgs/metronome { } {
           src = metronome-src;
