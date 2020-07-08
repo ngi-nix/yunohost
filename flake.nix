@@ -7,8 +7,10 @@
   # Upstream source tree(s).
   inputs.ssowat-src = { type = "github"; owner = "YunoHost"; repo = "SSOwat"; ref = "buster-unstable"; flake = false; };
   inputs.moulinette-src = { type = "github"; owner = "YunoHost"; repo = "moulinette"; ref = "buster-unstable"; flake = false; };
+  inputs.yunohost-src = { type = "github"; owner = "YunoHost"; repo = "yunohost"; ref = "buster-unstable"; flake = false; };
+  inputs.yunohost-admin-src = { type = "github"; owner = "YunoHost"; repo = "yunohost-admin"; ref = "buster-unstable"; flake = false; };
 
-  outputs = { self, nixpkgs, ssowat-src, moulinette-src }:
+  outputs = { self, nixpkgs, ssowat-src, moulinette-src, yunohost-src, yunohost-admin-src }:
     let
       # Generate a user-friendly version numer.
       versions =
@@ -18,6 +20,8 @@
         {
           ssowat = generateVersion ssowat-src;
           moulinette = generateVersion moulinette-src;
+          yunohost = generateVersion yunohost-src;
+          yunohost-admin = generateVersion yunohost-admin-src;
         };
 
       # System types to support.
