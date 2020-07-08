@@ -25,8 +25,20 @@ stdenv.mkDerivation {
     "--with-lua-include=${lua}/include"
     "--with-lua=${luaInterpreter}/bin/lua"
     "--with-lua-lib=${luaInterpreter}/lib/lua/${lua.luaversion}"
-    "--lua-suffix=${lua.luaversion}"
+    # Wrapper doesn't contain the executable with a suffix
+    # "--lua-suffix=${lua.luaversion}"
   ];
 
   nativeBuildInputs = [ libidn openssl ];
+
+  preFixup = ''
+    for file in $out/bin/metronome{,ctl} $out/lib/metronome/modules/register_api/send_mail; do
+      sed -i \
+        -e "s@\(CFG_CONFIGDIR=\).*@\1'/etc/metronome'@" \
+        -e "s@\(CFG_DATADIR=\).*@\1'/var/lib/metronome'@" \
+        $file
+    done
+  '';
+
+  passthru = { lua = luaInterpreter; };
 }
