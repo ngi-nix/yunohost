@@ -69,7 +69,8 @@
           packageOverrides = final: prev:
             with final; {
 
-              moulinette = callPackage ./pkgs/moulinette { } {
+              moulinette = callPackage ./pkgs/moulinette
+                { } {
                 src = moulinette-src;
                 version = versions.moulinette;
               };
@@ -99,25 +100,30 @@
         inherit (inputs.poetry2nix.packages.${system})
           poetry poetry2nix;
 
-        metronome = callPackage ./pkgs/metronome { } {
+        metronome = callPackage ./pkgs/metronome
+          { } {
           src = metronome-src;
           version = versions.metronome;
         };
-        ssowat = callPackage ./pkgs/ssowat { } {
+        ssowat = callPackage ./pkgs/ssowat
+          { } {
           src = ssowat-src;
           version = versions.ssowat;
         };
-        yunohost = callPackage ./pkgs/yunohost { } {
+        yunohost = callPackage ./pkgs/yunohost
+          { } {
           src = yunohost-src;
           version = versions.yunohost;
         };
-        yunohost-admin = callPackage ./pkgs/yunohost/admin.nix {
-          fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
-        } rec {
-          src = yunohost-admin-src;
-          version = versions.yunohost-admin;
-          rngid = builtins.substring 0 4 version;
-        };
+        yunohost-admin =
+          callPackage ./pkgs/yunohost/admin.nix
+            {
+              fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
+            } rec {
+            src = yunohost-admin-src;
+            version = versions.yunohost-admin;
+            rngid = builtins.substring 0 4 version;
+          };
 
       };
 
@@ -149,15 +155,17 @@
           nixopsWrapper = with pkgSet; poetry2nix.mkPoetryEnv {
             projectDir = inputs.nixops-libvirtd;
 
-            overrides = poetry2nix.overrides.withDefaults
-              (lib.composeExtensions
-                (import (inputs.nixops-libvirtd + "/overrides.nix") { pkgs = pkgSet; })
-                (final: prev: {
-                  nixops = prev.nixops.overrideAttrs ({ ... }:
-                    {
-                      src = inputs.nixops;
-                    });
-                })
+            overrides =
+              poetry2nix.overrides.withDefaults (
+                lib.composeExtensions
+                  (import (inputs.nixops-libvirtd + "/overrides.nix") { pkgs = pkgSet; })
+                  (final: prev: {
+                    nixops = prev.nixops.overrideAttrs ({ ... }:
+                      {
+                        src = inputs.nixops;
+                      }
+                    );
+                  })
               );
           };
         in

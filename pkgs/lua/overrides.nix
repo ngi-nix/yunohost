@@ -16,18 +16,18 @@ final: prev:
   };
 
   luaexpat = prev.luaexpat.override {
-    externalDeps = [ { name = "EXPAT"; dep = pkgs.expat; } ];
+    externalDeps = [{ name = "EXPAT"; dep = pkgs.expat; }];
   };
 
   luaevent = prev.luaevent.override {
-    externalDeps = [ { name = "EVENT"; dep = pkgs.libevent; } ];
+    externalDeps = [{ name = "EVENT"; dep = pkgs.libevent; }];
   };
 
   luasec = prev.luasec.override {
-    externalDeps = [ { name = "OPENSSL"; dep = pkgs.openssl; } ];
+    externalDeps = [{ name = "OPENSSL"; dep = pkgs.openssl; }];
   };
 
   lua-zlib = prev.lua-zlib.override {
-    externalDeps = [ { name = "ZLIB"; dep = pkgs.zlib; } ];
+    externalDeps = [{ name = "ZLIB"; dep = pkgs.zlib; }];
   };
 }

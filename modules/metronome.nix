@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 with lib;
-
 let
   cfg = config.services.metronome;
 in
@@ -41,7 +40,7 @@ in
         home = "/var/lib/metronome";
       };
 
-      groups.metronome = {};
+      groups.metronome = { };
     };
 
     systemd.tmpfiles.rules = [

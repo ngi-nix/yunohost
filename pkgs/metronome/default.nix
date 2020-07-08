@@ -1,8 +1,10 @@
 { stdenv
-, libidn, openssl, lua }:
+, libidn
+, openssl
+, lua
+}:
 
 { src, version }:
-
 let
   luaInterpreter = lua.withPackages (ps: with ps;
     [
@@ -13,7 +15,8 @@ let
       luasec
       lua-zlib
       luadbi
-    ]);
+    ]
+  );
 in
 stdenv.mkDerivation {
   pname = "metronome";

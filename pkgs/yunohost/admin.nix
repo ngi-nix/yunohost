@@ -1,6 +1,9 @@
 { stdenv
-, nodejs, fetchNodeModules
-, gifsicle, optipng }:
+, nodejs
+, fetchNodeModules
+, gifsicle
+, optipng
+}:
 
 { src, version, rngid }:
 

@@ -1,11 +1,12 @@
 { stdenv
-, python }:
+, python
+}:
 
 { src, version }:
-
 let
   pythonInterpreter = python.withPackages (ps: with ps; [
-    pyyaml jinja2
+    pyyaml
+    jinja2
   ]);
 in
 stdenv.mkDerivation {
