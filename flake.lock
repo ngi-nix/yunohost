@@ -1,66 +1,116 @@
 {
   "nodes": {
-    "gnulib-src": {
+    "metronome-src": {
       "flake": false,
-      "info": {
-        "lastModified": 1588070119,
-        "narHash": "sha256-gMIWbMSKisS5w6QxKFfN1IJHPHxZw9h5upzxpada+1c=",
-        "revCount": 20684
-      },
       "locked": {
-        "ref": "master",
-        "rev": "5ec4d920e4acb45225320c3df9ae32fdff928413",
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/gnulib.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/gnulib.git"
-      }
-    },
-    "hello-src": {
-      "flake": false,
-      "info": {
-        "lastModified": 1549746003,
-        "narHash": "sha256-7losVbaLgy9pjL6GoOrZAK6O6nCXm3pddo03UZDjxUc=",
-        "revCount": 454
-      },
-      "locked": {
-        "ref": "master",
-        "rev": "0cce403f478bd0a4a60d0b8566c67d3a72498008",
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/hello.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.savannah.gnu.org/git/hello.git"
-      }
-    },
-    "nixpkgs": {
-      "info": {
-        "lastModified": 1588027483,
-        "narHash": "sha256-DcNFRegA72g1fmVWp+kFxxD4JuAwwM7XjYy0ebRa56U="
-      },
-      "locked": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "2faa76db27c4a8045d050d9b390dbb2249b0f3c0",
+        "lastModified": 1590849402,
+        "narHash": "sha256-1mbklC1EGIAGyBEDefi4J9U0mtkFh2nqxfY/HwEXbAY=",
+        "owner": "maranda",
+        "repo": "metronome",
+        "rev": "2ad644bac0edd49e283eac516678dfad260c280e",
         "type": "github"
       },
       "original": {
-        "id": "nixpkgs",
+        "owner": "maranda",
+        "repo": "metronome",
+        "type": "github"
+      }
+    },
+    "moulinette-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1592573650,
+        "narHash": "sha256-DKg/X57bn6B+bxBstaA4a0LYpX2cgjhpFhMHq34tezY=",
+        "owner": "YunoHost",
+        "repo": "moulinette",
+        "rev": "4089ffbbcf9c965a65d047b7a11e8ce8caca51a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "YunoHost",
+        "ref": "buster-unstable",
+        "repo": "moulinette",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1594117931,
+        "narHash": "sha256-x7nZvITCLJiK7miPXU6yl2zdq+MlhjHicggfvjLguFg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c9d124e39dbeefc53c7b3e09fbfc2c26bcbd4845",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
         "ref": "nixos-20.03",
-        "type": "indirect"
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "root": {
       "inputs": {
-        "gnulib-src": "gnulib-src",
-        "hello-src": "hello-src",
-        "nixpkgs": "nixpkgs"
+        "metronome-src": "metronome-src",
+        "moulinette-src": "moulinette-src",
+        "nixpkgs": "nixpkgs",
+        "ssowat-src": "ssowat-src",
+        "yunohost-admin-src": "yunohost-admin-src",
+        "yunohost-src": "yunohost-src"
+      }
+    },
+    "ssowat-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1592573373,
+        "narHash": "sha256-ylMMEUfBw8vSwkwt6P+vWeq6X7tLNJzR9cUaUusnmQE=",
+        "owner": "YunoHost",
+        "repo": "SSOwat",
+        "rev": "42fe39c1897766ef4e38956ba8f05371fc963228",
+        "type": "github"
+      },
+      "original": {
+        "owner": "YunoHost",
+        "ref": "buster-unstable",
+        "repo": "SSOwat",
+        "type": "github"
+      }
+    },
+    "yunohost-admin-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1592574093,
+        "narHash": "sha256-/+yC7peu8zhDSyunuhg7XJMSrTFssK/cHNhUBkx9028=",
+        "owner": "YunoHost",
+        "repo": "yunohost-admin",
+        "rev": "8cbcb7c1d9a3ccd967509289283fd04585ec50d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "YunoHost",
+        "ref": "buster-unstable",
+        "repo": "yunohost-admin",
+        "type": "github"
+      }
+    },
+    "yunohost-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1593089225,
+        "narHash": "sha256-Mm1OhvfBiWggrbkaCvdfYZNDCYz2VKn4298Ktr17im8=",
+        "owner": "YunoHost",
+        "repo": "yunohost",
+        "rev": "c1c1197bcfd1abee0bb82a2bcd8a8ff2e1d600de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "YunoHost",
+        "ref": "buster-unstable",
+        "repo": "yunohost",
+        "type": "github"
       }
     }
   },
   "root": "root",
-  "version": 5
+  "version": 7
 }
