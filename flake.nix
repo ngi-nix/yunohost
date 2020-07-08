@@ -150,7 +150,15 @@
             projectDir = inputs.nixops-libvirtd;
 
             overrides = poetry2nix.overrides.withDefaults
-              (import (inputs.nixops-libvirtd + "/overrides.nix") { pkgs = pkgSet; });
+              (lib.composeExtensions
+                (import (inputs.nixops-libvirtd + "/overrides.nix") { pkgs = pkgSet; })
+                (final: prev: {
+                  nixops = prev.nixops.overrideAttrs ({ ... }:
+                    {
+                      src = inputs.nixops;
+                    });
+                })
+              );
           };
         in
         pkgSet.mkShell {
