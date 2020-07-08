@@ -38,6 +38,9 @@ stdenv.mkDerivation {
 
     mkdir -p $out/lib/systemd/system
     cp debian/*.service $out/lib/systemd/system
+    for service in $out/lib/systemd/system/*; do
+      sed -i "s@/usr/bin@$out/bin@g" $service
+    done
 
     runHook postInstall
   '';
