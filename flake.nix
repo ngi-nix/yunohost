@@ -5,8 +5,8 @@
   inputs.nixpkgs = { type = "github"; owner = "NixOS"; repo = "nixpkgs"; ref = "nixos-20.03"; };
 
   # Upstream source tree(s).
-  inputs.ssowat-src = { type = "github"; owner = "YunoHost"; repo = "SSOwat"; flake = false; };
-  inputs.moulinette-src = { type = "github"; owner = "YunoHost"; repo = "moulinette"; flake = false; };
+  inputs.ssowat-src = { type = "github"; owner = "YunoHost"; repo = "SSOwat"; ref = "buster-unstable"; flake = false; };
+  inputs.moulinette-src = { type = "github"; owner = "YunoHost"; repo = "moulinette"; ref = "buster-unstable"; flake = false; };
 
   outputs = { self, nixpkgs, ssowat-src, moulinette-src }:
     let
