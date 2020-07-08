@@ -58,6 +58,7 @@
         python2 = prev.python2.override {
           packageOverrides = final: prev:
             with final; {
+
               moulinette = callPackage (import ./pkgs/moulinette { src = moulinette-src; version = versions.moulinette; }) { };
 
               pytest-cov = buildPythonPackage rec {
@@ -73,6 +74,7 @@
 
                 doCheck = false;
               };
+
             };
         };
 
@@ -80,6 +82,17 @@
 
         ssowat = callPackage (import ./pkgs/ssowat { src = ssowat-src; version = versions.ssowat; }) { };
         yunohost = callPackage (import ./pkgs/yunohost { src = yunohost-src; version = versions.yunohost; }) { };
+        yunohost-admin = callPackage
+          (import ./pkgs/yunohost/admin.nix
+            rec {
+              src = yunohost-admin-src;
+              version = versions.yunohost-admin;
+              rngid = builtins.substring 0 4 version;
+            }
+          )
+          {
+            fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
+          };
 
       };
 
@@ -97,7 +110,7 @@
 
           inherit (pkgSet)
             ssowat
-            yunohost;
+            yunohost yunohost-admin;
         }
       );
 
