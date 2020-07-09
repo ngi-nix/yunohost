@@ -44,4 +44,10 @@ stdenv.mkDerivation {
 
     runHook postInstall
   '';
+
+  preFixup = ''
+    for f in `grep -lr /usr/share/yunohost $out | grep -v share/yunohost/templates`; do
+      sed -i "s@/usr/share/yunohost@$out/share/yunohost@g" $f
+    done
+  '';
 }
