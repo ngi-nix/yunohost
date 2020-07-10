@@ -3,8 +3,14 @@
 {
   network.description = "Nixops YunoHost setup";
 
-  metronome = { ... }: {
-    imports = [ ./metronome.nix ];
+  yunohost = { pkgs, lib, ... }: {
+    imports = builtins.attrValues self.nixosModules;
+
+    # used to ripgrep
+    environment.systemPackages = with pkgs; [ ripgrep ];
+
+    services.openssh.permitRootLogin = lib.mkForce "prohibit-password";
+    services.yunohost.enable = true;
   };
 
   defaults = { ... }: {

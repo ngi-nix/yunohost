@@ -181,6 +181,7 @@
       # A NixOS module, if applicable (e.g. if the package provides a system service).
       nixosModules = {
         metronome = import ./modules/metronome.nix;
+        yunohost = import ./modules/yunohost.nix;
       };
 
       # Nixops configuration
