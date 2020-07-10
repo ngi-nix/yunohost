@@ -59,14 +59,12 @@ in
         Type = "forking";
         User = "metronome";
         Group = "metronome";
-        ExecStart = "${pkgs.metronome}/bin/metronome start";
-        ExecStop = "${pkgs.metronome}/bin/metronome stop";
-
-        PermissionsStartOnly = true;
-        RuntimeDirectory = "metronome";
-        RuntimeDirectoryMode = "0750";
+        ExecStart = "${pkgs.metronome}/bin/metronomectl start";
+        ExecStop = "${pkgs.metronome}/bin/metronomectl stop";
 
         PIDFile = "/run/metronome/metronome.pid";
+        RuntimeDirectory = "metronome";
+        RuntimeDirectoryMode = "0750";
       };
     };
   };
