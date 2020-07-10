@@ -24,6 +24,10 @@ buildPythonPackage rec {
   inherit version src;
   disabled = isPy3k;
 
+  prePatch = ''
+    sed -i 's@\(systemctl restart\) slapd@\1 openldap@' moulinette/authenticators/ldap.py
+  '';
+
   propagatedBuildInputs = [
     argcomplete
     psutil
