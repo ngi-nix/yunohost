@@ -1,5 +1,6 @@
 { stdenv
 , python2
+, makeWrapper
 }:
 
 { src, version }:
@@ -27,6 +28,7 @@ stdenv.mkDerivation {
   inherit src version;
 
   buildInputs = [ pythonInterpreter ];
+  nativeBuildInputs = [ makeWrapper ];
 
   buildPhase = ''
     runHook preBuild
@@ -64,6 +66,13 @@ stdenv.mkDerivation {
     for f in `grep -lr /usr/share/yunohost $out | grep -v share/yunohost/templates`; do
       sed -i "s@/usr/share/yunohost@$out/share/yunohost@g" $f
     done
+
+    sed -i "s@'/usr/'@'/'@" $out/bin/yunohost
+
+    wrapProgram $out/bin/yunohost \
+      --set MOULINETTE_DATA_DIR $out/share/moulinette \
+      --set MOULINETTE_LOCALES_DIR $out/lib/moulinette/yunohost/locales \
+      --prefix PYTHONPATH : $out/lib/moulinette
   '';
 
   passthru = { python = pythonInterpreter; };
