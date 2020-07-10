@@ -1,17 +1,32 @@
 { stdenv
-, python
+, python2
 }:
 
 { src, version }:
 let
-  pythonInterpreter = python.withPackages (ps: with ps; [
+  pythonInterpreter = python2.withPackages (ps: with ps; [
     pyyaml
     jinja2
+
+    psutil
+    requests
+    dnspython
+    pyopenssl
+    miniupnpc
+    dbus-python
+    jinja2
+    toml
+    packaging
+    publicsuffix
+    pip
+    moulinette
   ]);
 in
 stdenv.mkDerivation {
   pname = "yunohost";
   inherit src version;
+
+  buildInputs = [ pythonInterpreter ];
 
   buildPhase = ''
     runHook preBuild
@@ -50,4 +65,6 @@ stdenv.mkDerivation {
       sed -i "s@/usr/share/yunohost@$out/share/yunohost@g" $f
     done
   '';
+
+  passthru = { python = pythonInterpreter; };
 }
