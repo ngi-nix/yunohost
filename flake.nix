@@ -159,7 +159,59 @@
       };
 
       # Tests run by 'nix flake check' and by Hydra.
-      checks = forAllSystems (system: self.packages.${system} // {});
+      checks = forAllSystems (system: self.packages.${system} // {
+
+        yunohost-command-line =
+          with import (nixpkgs + "/nixos/lib/testing-python.nix") {
+            inherit system;
+          };
+          with nixpkgsFor.${system};
+          with self.packages.${system};
+
+          makeTest {
+            nodes = {
+              machine = { ... }: {
+                imports = builtins.attrValues self.nixosModules;
+                services.yunohost.enable = true;
+
+                nixpkgs.overlays = [ self.overlay ];
+              };
+            };
+
+            testScript =
+              let
+                commands = [
+                  "--help" "--version"
+                  "user list"
+                  # "user create test" "user delete test" "user info test" "user group list" # reliance on openldap being setup fully?
+                  "domain list" # reliance on openldap.service
+                  "app list" # needs /etc/yunohost/apps/
+                  "backup list"
+                  "settings list"
+                  "service status" # fails due to different service names
+                  "firewall list"
+                  "dyndns --help" "dyndns installcron" # needs /etc/cron.d/yunohost-dyndns
+                  "tools versions" "tools migrations list" # fails due to reliance on /etc/os-release
+                  "hook --help" # not sure about hook names
+                  "log list"
+                  "diagnosis list"
+                ];
+              in
+              ''
+                start_all()
+
+                ${lib.concatMapStringsSep "\n"
+                  (cmd: ''
+                    print("Running `yunohost ${cmd}`")
+                    machine.execute("yunohost ${cmd}")
+                  '')
+                  commands}
+
+                machine.shutdown()
+              '';
+          };
+
+      });
 
     };
 }
