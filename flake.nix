@@ -147,32 +147,6 @@
         }
       );
 
-      # Development environment
-      devShell = forAllSystems (system:
-        let
-          pkgSet = nixpkgsFor.${system};
-
-          nixopsWrapper = with pkgSet; poetry2nix.mkPoetryEnv {
-            projectDir = inputs.nixops-libvirtd;
-
-            overrides =
-              poetry2nix.overrides.withDefaults (
-                lib.composeExtensions
-                  (import (inputs.nixops-libvirtd + "/overrides.nix") { pkgs = pkgSet; })
-                  (final: prev: {
-                    nixops = prev.nixops.overrideAttrs ({ ... }:
-                      {
-                        src = inputs.nixops;
-                      }
-                    );
-                  })
-              );
-          };
-        in
-        pkgSet.mkShell {
-          buildInputs = [ nixopsWrapper pkgSet.nixops-libvirtd ];
-        });
-
       # The default package for 'nix build'. This makes sense if the
       # flake provides only one package or there is a clear "main"
       # package.
@@ -183,9 +157,6 @@
         metronome = import ./modules/metronome.nix;
         yunohost = import ./modules/yunohost.nix;
       };
-
-      # Nixops configuration
-      nixopsConfigurations.default = { inherit nixpkgs; } // (import ./nixops/default.nix { inherit self; });
 
       # Tests run by 'nix flake check' and by Hydra.
       checks = forAllSystems (system: self.packages.${system} // {});
