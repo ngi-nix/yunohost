@@ -100,11 +100,13 @@ in
       "ssl/private/yunohost_key.pem".source = caCertsDrv + "/certs/yunohost_key.pem";
     };
 
+    systemd.tmpfiles.rules = [
+      "d /etc/cron.d         0755 root root -"
+      "d /etc/yunohost/apps  0755 root root -"
+    ];
+
     systemd.packages = [ yunohost ];
     systemd.services.yunohost-api.enable = true;
-    systemd.services.yunohost-api.serviceConfig.preStart = ''
-      mkdir -p /etc/yunohost/apps/
-    '';
     systemd.services.yunohost-firewall.enable = true;
 
     services.postfix = {
