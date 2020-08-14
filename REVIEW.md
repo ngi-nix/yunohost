@@ -4,8 +4,8 @@ A basic overview of the what should be reviewed.
 - Nixops deployment needs libvirtd (flake's checks should the same)
 
 ### Notes
-- Verify command line doesn't unexpectedly crash out with an unidentifiable or unrecognizable error
-- slapd is openldap in NixOS
+- Verify YunoHost is packaged
+- Verify command line doesn't unexpectedly crash out with an unidentifiable or unrecognizable error (i.e. a segfault)
 
 ### Test Script
 
