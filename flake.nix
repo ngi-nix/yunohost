@@ -47,85 +47,88 @@
     {
 
       # A Nixpkgs overlay.
-      overlay = final: prev: with final; {
+      overlay = final: prev:
+        with final;
+        {
 
-        # Lua Packages
+          # Lua Packages
 
-        luaPackages = final.lua.pkgs;
-        lua = prev.lua.override {
-          packageOverrides =
-            let
-              overridenPackages = import ./pkgs/lua/overrides.nix { pkgs = final.pkgs; };
-              generatedPackages = callPackage ./pkgs/lua/package-set.nix { };
-              finalPackages = lib.composeExtensions generatedPackages overridenPackages;
-            in
-            finalPackages;
-        };
-
-        # Python Packages
-
-        python2Packages = final.python2.pkgs;
-        python2 = prev.python2.override {
-          packageOverrides = final: prev:
-            with final; {
-
-              moulinette = callPackage ./pkgs/moulinette
-                { } {
-                src = moulinette-src;
-                version = versions.moulinette;
-              };
-
-              pytest-cov = buildPythonPackage rec {
-                pname = "pytest-cov";
-                version = "2.10.0";
-
-                src = fetchPypi {
-                  inherit pname version;
-                  sha256 = "11xcy37zrcr02xxgym9wr2q79hwhwiyv19pxrcpm2lwfyk4rsqhs";
-                };
-
-                propagatedBuildInputs = [ pytest coverage ];
-
-                doCheck = false;
-              };
-
-            };
-        };
-
-        # Packages
-
-        nixops = inputs.nixops.defaultPackage.${system};
-        nixops-libvirtd = import inputs.nixops-libvirtd { pkgs = final.pkgs; };
-
-        inherit (inputs.poetry2nix.packages.${system})
-          poetry poetry2nix;
-
-        metronome = callPackage ./pkgs/metronome
-          { } {
-          src = metronome-src;
-          version = versions.metronome;
-        };
-        ssowat = callPackage ./pkgs/ssowat
-          { } {
-          src = ssowat-src;
-          version = versions.ssowat;
-        };
-        yunohost = callPackage ./pkgs/yunohost
-          { } {
-          src = yunohost-src;
-          version = versions.yunohost;
-        };
-        yunohost-admin =
-          callPackage ./pkgs/yunohost/admin.nix
-            {
-              fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
-            } rec {
-            src = yunohost-admin-src;
-            version = versions.yunohost-admin;
-            rngid = builtins.substring 0 4 version;
+          luaPackages = final.lua.pkgs;
+          lua = prev.lua.override {
+            packageOverrides =
+              let
+                overridenPackages = import ./pkgs/lua/overrides.nix { pkgs = final.pkgs; };
+                generatedPackages = callPackage ./pkgs/lua/package-set.nix { };
+                finalPackages = lib.composeExtensions generatedPackages overridenPackages;
+              in
+              finalPackages;
           };
 
-      };
+          # Python Packages
+
+          python2Packages = final.python2.pkgs;
+          python2 = prev.python2.override {
+            packageOverrides = final: prev:
+              with final; {
+
+                moulinette = callPackage ./pkgs/moulinette
+                  { } {
+                  src = moulinette-src;
+                  version = versions.moulinette;
+                };
+
+                pytest-cov = buildPythonPackage rec {
+                  pname = "pytest-cov";
+                  version = "2.10.0";
+
+                  src = fetchPypi {
+                    inherit pname version;
+                    sha256 = "11xcy37zrcr02xxgym9wr2q79hwhwiyv19pxrcpm2lwfyk4rsqhs";
+                  };
+
+                  propagatedBuildInputs = [ pytest coverage ];
+
+                  doCheck = false;
+                };
+
+              };
+          };
+
+          # Packages
+
+          nixops = inputs.nixops.defaultPackage.${system};
+          nixops-libvirtd = import inputs.nixops-libvirtd { pkgs = final.pkgs; };
+
+          inherit (inputs.poetry2nix.packages.${system})
+            poetry poetry2nix;
+
+          metronome = callPackage ./pkgs/metronome
+            { } {
+            src = metronome-src;
+            version = versions.metronome;
+          };
+          ssowat = callPackage ./pkgs/ssowat
+            { } {
+            src = ssowat-src;
+            version = versions.ssowat;
+          };
+          yunohost = callPackage ./pkgs/yunohost
+            { } {
+            src = yunohost-src;
+            version = versions.yunohost;
+          };
+          yunohost-admin =
+            callPackage ./pkgs/yunohost/admin.nix
+              {
+                nodejs = nodejs-12_x;
+                fetchNodeModules = callPackage ./pkgs/yunohost/fetchNodeModules.nix { };
+              } rec {
+              src = yunohost-admin-src;
+              version = versions.yunohost-admin;
+              rngid = builtins.substring 0 4 version;
+            };
+
+        };
 
       # Provide some binary packages for selected system types.
       packages = forAllSystems (system:
