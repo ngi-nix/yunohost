@@ -5,10 +5,6 @@
   inputs.nixpkgs = { type = "github"; owner = "NixOS"; repo = "nixpkgs"; ref = "nixos-20.03"; };
 
   # Unstable tools.
-  inputs.nixops = { type = "github"; owner = "NixOS"; repo = "nixops"; };
-  inputs.nixops.inputs.nixpkgs.follows = "/nixpkgs";
-  inputs.nixops-libvirtd = { type = "github"; owner = "nix-community"; repo = "nixops-libvirtd"; flake = false; };
-
   inputs.poetry2nix = { type = "github"; owner = "nix-community"; repo = "poetry2nix"; };
 
   # Upstream source tree(s).
@@ -95,9 +91,6 @@
           };
 
           # Packages
-
-          nixops = inputs.nixops.defaultPackage.${system};
-          nixops-libvirtd = import inputs.nixops-libvirtd { pkgs = final.pkgs; };
 
           inherit (inputs.poetry2nix.packages.${system})
             poetry poetry2nix;

@@ -33,43 +33,6 @@
         "type": "github"
       }
     },
-    "nixops": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "utils": "utils"
-      },
-      "locked": {
-        "lastModified": 1598616473,
-        "narHash": "sha256-4WDHxS6eTMzx6ASqTVnjTAubx0dkMGHPykkgONd+K/w=",
-        "owner": "NixOS",
-        "repo": "nixops",
-        "rev": "0c467cda1ecab0856aa9ff8646261299e5492694",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixops",
-        "type": "github"
-      }
-    },
-    "nixops-libvirtd": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1594639580,
-        "narHash": "sha256-xkNAx9yRRDFuu+GHGI1zv9Vw7rHHVTReXLQRotDz5cg=",
-        "owner": "nix-community",
-        "repo": "nixops-libvirtd",
-        "rev": "af6cf5b2ced57b7b6d36b5df7dd27a14e0a5cfb6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixops-libvirtd",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1599441668,
@@ -122,8 +85,6 @@
       "inputs": {
         "metronome-src": "metronome-src",
         "moulinette-src": "moulinette-src",
-        "nixops": "nixops",
-        "nixops-libvirtd": "nixops-libvirtd",
         "nixpkgs": "nixpkgs",
         "poetry2nix": "poetry2nix",
         "ssowat-src": "ssowat-src",
@@ -145,21 +106,6 @@
         "owner": "YunoHost",
         "ref": "buster-unstable",
         "repo": "SSOwat",
-        "type": "github"
-      }
-    },
-    "utils": {
-      "locked": {
-        "lastModified": 1594123299,
-        "narHash": "sha256-zxjtMmOV93pIVG242RpEXu14w/13XYDo3ygMoRIJg4c=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "590d6d1badea1956a31480a0cba1d8d029cf45d3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
         "type": "github"
       }
     },
